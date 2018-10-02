@@ -56,7 +56,7 @@ $container['tiny'] = function ($container) {
     return new \ZackKitzmiller\Tiny($settings['tiny_key']);
 };
 
-$controllers = ['HomeController'];
+$controllers = ['HomeController', 'IpController'];
 
 foreach($controllers as $controller) {
     $container[$controller] = function($container) use ($controller) {
