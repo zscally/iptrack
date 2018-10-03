@@ -11,9 +11,7 @@ class Ip extends Model
 
     /**
      * Creates an ip.
-     * @param $session_id
-     * @param $players
-     * @return mixed
+     * @param Ip $ip_data
      */
     public function createIps($ip_data)
     {
