@@ -10,6 +10,9 @@ $app->post('/api/ip/save', 'IpController:save')->setName('ip_address')
     ->add(new \DavidePastore\Slim\Validation\Validation(['ip_address' => $ip_payload_validator]));
 
 
+$app->get('/api/ip/get-queue', 'IpController:getQueue')->setName('Get Queue');
+
+
 /**
  * Swagger Documentation.
  */

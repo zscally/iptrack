@@ -25,5 +25,11 @@ return [
             'collation' => 'utf8_unicode_ci',
             'prefix' => '',
         ],
+        'rabbitmq' => [
+            'host' => 'localhost',
+            'port' => '5672',
+            'username' => 'guest',
+            'password' => 'guest'
+        ],
     ],
 ];

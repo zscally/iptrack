@@ -14,9 +14,10 @@
       "bryanjhv/slim-session": "~3.0",
       "zackkitzmiller/tiny": "^1.3",
       "slim/flash": "^0.2.0",
-        "davidepastore/slim-validation": "^0.5.1",
-        "zircote/swagger-php": "^3.0",
-        "akrabat/ip-address-middleware": "^1.0"
+      "davidepastore/slim-validation": "^0.5.1",
+      "zircote/swagger-php": "^3.0",
+      "akrabat/ip-address-middleware": "^1.0",
+      "php-amqplib/php-amqplib": "^2.7"
     },
     "autoload": {
         "psr-4": {

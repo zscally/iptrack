@@ -1,5 +1,7 @@
 <?php
 
+use PhpAmqpLib\Connection\AMQPStreamConnection;
+
 session_start();
 
 require __DIR__ . '/../vendor/autoload.php';
@@ -55,6 +57,13 @@ $container['tiny'] = function ($container) {
     $settings = $container->get('settings')['system'];
     return new \ZackKitzmiller\Tiny($settings['tiny_key']);
 };
+
+$container['rabbitmq'] = function($container) {
+    $settings = $container->get('settings')['rabbitmq'];
+    $connection = new AMQPStreamConnection($settings['host'], $settings['port'], $settings['username'], $settings['password']);
+    return $connection;
+};
+
 
 $controllers = ['HomeController', 'IpController', 'ApiController'];
 

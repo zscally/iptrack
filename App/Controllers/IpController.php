@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use Illuminate\Support\Facades\DB;
+use \PhpAmqpLib\Message\AMQPMessage;
 use \App\Models\Ip;
 
 class IpController extends Controller
@@ -58,9 +59,19 @@ class IpController extends Controller
 
         $this->ip->createIps($res);
 
+        $payload_body = json_encode($res);
+
+        //add ips in the queue for processing
+        $channel = $this->container->rabbitmq->channel();
+        $channel->queue_declare('hello', false, false, false, false);
+        $msg = new AMQPMessage($payload_body);
+        $channel->basic_publish($msg, '', 'hello');
+        $channel->close();
+        $this->container->rabbitmq->close();
+
         return $response->withStatus(200)
             ->withHeader("Content-Type", "application/json")
-            ->write(json_encode($res));
+            ->write($payload_body);
 
     }
 
@@ -68,5 +79,22 @@ class IpController extends Controller
     private function applyUserId()
     {
         return ( isset($_SESSION['user_id']) && ! empty($_SESSION['user_id']) ? $_SESSION['user_id'] : rand(0, 100));
+    }
+
+
+    public function getQueue()
+    {
+        $channel = $this->container->rabbitmq->channel();
+        $channel->queue_declare('hello', false, false, false, false);
+
+        $callback = function ($msg) {
+            echo ' [x] Received ', $msg->body, "\n";
+        };
+
+        $channel->basic_consume('hello', '', false, true, false, false, $callback);
+
+        $this->container->rabbitmq->close();
+        $channel->close();
+
     }
 }
